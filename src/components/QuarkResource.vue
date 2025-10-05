@@ -169,6 +169,7 @@ export default {
   font-size: 25px;
   font-weight: bold;
   text-align: center;
+  text-decoration: underline;
 }
 
 .content {

@@ -1,14 +1,14 @@
 <template>
   <div class="quarkResource">
     <div class="header">
-      <div class="title">免费影视资源共享</div>
+      <div class="title">影视资源共享</div>
     </div>
     <div class="content">
       <div class="typeFilter">
         <div class="typeList">
+          <div class="typeItem" style="font-weight: bold" @click="searchType='';searchInput=''">首页</div>
           <div class="typeItem" v-for="(type,index) in typeList" :key="index"
                @click="searchType=searchType===type?'':type" :class="{typeActive:searchType===type}">
-
             {{ type }}
           </div>
         </div>
@@ -172,6 +172,20 @@ export default {
   text-decoration: underline;
 }
 
+.title::before {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-image: url("../assets/images/logo.png");
+  background-position: center;
+  background-size: 70% 70%;
+  background-repeat: no-repeat;
+}
+
 .content {
   height: calc(100% - 40px);
 }
@@ -204,9 +218,11 @@ export default {
   height: 50px;
   display: flex;
 }
-.searchBox > *{
+
+.searchBox > * {
   margin: auto;
 }
+
 .addToGroup {
   position: absolute;
   bottom: 55px;
@@ -344,6 +360,6 @@ export default {
 }
 
 .searchBox input {
-  box-shadow: 0 0 3px deepskyblue inset;
+  box-shadow: 0 0 3px red inset;
 }
 </style>

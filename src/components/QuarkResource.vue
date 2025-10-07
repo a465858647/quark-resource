@@ -3,7 +3,7 @@
     <div class="header">
       <div class="logo"></div>
       <div class="title">影视资源共享</div>
-      <div class="info-title" style="font-weight: bold;color: red;text-shadow: 0 0 15px white">下载夸克网盘APP <br> <span >转存后免费观看</span></div>
+      <div class="info-title" style="font-weight: bold;color: red;text-shadow: 0 0 15px white">用夸克网盘APP <br> <span >转存后免费观看</span></div>
     </div>
     <div class="content">
       <div class="typeFilter">

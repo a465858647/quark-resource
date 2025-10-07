@@ -1,7 +1,9 @@
 <template>
   <div class="quarkResource">
     <div class="header">
+      <div class="logo"></div>
       <div class="title">影视资源共享</div>
+      <div class="info-title" style="font-weight: bold;color: red;text-shadow: 0 0 15px white">下载夸克网盘APP <br> <span >转存后免费观看</span></div>
     </div>
     <div class="content">
       <div class="typeFilter">
@@ -161,6 +163,7 @@ export default {
 .header {
   height: 40px;
   background-color: deepskyblue;
+  display: flex;
 }
 
 .title {
@@ -172,18 +175,25 @@ export default {
   text-decoration: underline;
 }
 
-.title::before {
+.logo {
   content: '';
   display: block;
   width: 40px;
   height: 40px;
-  position: absolute;
-  left: 0;
-  top: 0;
+
   background-image: url("../assets/images/logo.png");
   background-position: center;
   background-size: 70% 70%;
   background-repeat: no-repeat;
+}
+
+.info-title {
+  font-size: 12px;
+  flex: 1;
+  text-align: right;
+  line-height: 20px;
+  color: white;
+  padding-right: 10px;
 }
 
 .content {

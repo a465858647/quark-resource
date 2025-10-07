@@ -136,7 +136,7 @@ export default {
 
         return isType && isName
       })
-      newData.sort((a, b) => a.update_at - b.update_at)
+      newData.sort((a, b) => b.updated_at - a.updated_at)
       return newData
     },
     typeList() {

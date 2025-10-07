@@ -136,6 +136,9 @@ export default {
 
         return isType && isName
       })
+      // newData.forEach(item=>{
+      //   item.file_name=item.file_name.replace(/^(?:\d+[-,.]|[A-Z]+[\s,_]+)/, '')
+      // })
       newData.sort((a, b) => b.updated_at - a.updated_at)
       return newData
     },

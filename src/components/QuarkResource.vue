@@ -57,7 +57,7 @@
         :visible.sync="wxVisible"
         width="80%"
     >
-      <div class="wxQR" style="background-image: url('/images/wxQR.png')"></div>
+      <div class="wxQR"></div>
     </el-dialog>
     <!--搜索对话框-->
     <el-dialog
@@ -331,9 +331,9 @@ export default {
 }
 
 .wxQR {
-  /*
-  background-image: url("../assets/images/xwQR.png");
-  */
+
+  background-image: url("../assets/images/wxQR.png");
+
   width: 200px;
   height: 200px;
   background-position: center;

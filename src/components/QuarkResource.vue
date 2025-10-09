@@ -3,7 +3,8 @@
     <div class="header">
       <div class="logo"></div>
       <div class="title">影视资源共享</div>
-      <div class="info-title" style="font-weight: bold;color: red;text-shadow: 0 0 15px white">用夸克网盘APP <br> <span >转存后免费观看</span></div>
+      <div class="info-title" style="font-weight: bold;color: red;text-shadow: 0 0 15px white">用夸克网盘APP <br> <span>转存后免费观看</span>
+      </div>
     </div>
     <div class="content">
       <div class="typeFilter">
@@ -69,31 +70,32 @@
 </template>
 
 <script>
+import data from '@/assets/json/resource.json'
 
 export default {
   name: 'QuarkResource',
   props: {
     msg: String
   },
-  created() {
-    fetch('/json/resource.json')
-        .then(response => {
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          return response.json(); // 解析 JSON
-        })
-        .then(data => {
-          // console.log('JSON 数据:', data);
-          this.data = data
-        })
-        .catch(error => {
-          console.error('获取 JSON 失败:', error);
-        });
-  },
+  // created() {
+  //   fetch('/json/resource.json')
+  //       .then(response => {
+  //         if (!response.ok) {
+  //           throw new Error(`HTTP error! status: ${response.status}`);
+  //         }
+  //         return response.json(); // 解析 JSON
+  //       })
+  //       .then(data => {
+  //         // console.log('JSON 数据:', data);
+  //         this.data = data
+  //       })
+  //       .catch(error => {
+  //         console.error('获取 JSON 失败:', error);
+  //       });
+  // },
   data() {
     return {
-      data: [],
+      data: data,
       qqVisible: false,
       wxVisible: false,
       searchVisible: false,

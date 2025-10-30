@@ -3,7 +3,7 @@
     <div class="header">
       <div class="logo"></div>
       <div class="title">影视资源共享</div>
-      <div class="info-title" style="font-weight: bold;color: red;text-shadow: 0 0 15px white">用夸克网盘APP <br> <span>转存后免费观看</span>
+      <div class="info-title" style="font-weight: bold;color: red;text-shadow: 0 0 15px white">夸克或百度网盘 <br> <span>转存后免费观看</span>
       </div>
     </div>
     <div class="content">
@@ -25,7 +25,9 @@
         <div class="table-body">
           <div class="row" v-for="(i,index) in computedData" :key="index">
             <div class="no">{{ index + 1 }}</div>
-            <div class="name"><a :href="i.share_url" target="_blank" rel="noopener noreferrer">{{ i.file_name }}</a>
+            <div class="name">
+              <a :href="i.share_url" target="_blank" rel="noopener noreferrer">{{ i.file_name }}</a>
+              <span style="font-size: 12px;color: deeppink;font-weight: bold;padding: 0 10px;">{{ i.shortlink ? '百度' : '夸克'}}</span>
             </div>
             <div class="type">{{ i._type }}</div>
           </div>
@@ -70,32 +72,18 @@
 </template>
 
 <script>
-import data from '@/assets/json/resource.json'
+import dataQuark from '@/assets/json/resourceQuark.json'
+import dataBaidu from '@/assets/json/resourceBaidu.json'
 
 export default {
   name: 'QuarkResource',
   props: {
     msg: String
   },
-  // created() {
-  //   fetch('/json/resource.json')
-  //       .then(response => {
-  //         if (!response.ok) {
-  //           throw new Error(`HTTP error! status: ${response.status}`);
-  //         }
-  //         return response.json(); // 解析 JSON
-  //       })
-  //       .then(data => {
-  //         // console.log('JSON 数据:', data);
-  //         this.data = data
-  //       })
-  //       .catch(error => {
-  //         console.error('获取 JSON 失败:', error);
-  //       });
-  // },
   data() {
     return {
-      data: data,
+      dataQuark: dataQuark,
+      dataBaidu: dataBaidu,
       qqVisible: false,
       wxVisible: false,
       searchVisible: false,
@@ -116,13 +104,18 @@ export default {
   },
   computed: {
     computedData() {
-      this.data.forEach(item => {
+      this.dataQuark.forEach(item => {
         let arr = item.currentPath.split('/')
         let type = arr[1]
         type = type.replace(/##\d+##/g, '')
         item._type = type
       })
-      let newData = this.data.filter(item => {
+      this.dataBaidu.forEach(item => {
+        item._type = item._tag
+        item.file_name = item._name
+        item.share_url=`${item.shortlink}?pwd=${item.passwd}`
+      })
+      let newData = this.dataQuark.filter(item => {
         let isType
         if (this.searchType === '') {
           isType = true
@@ -138,17 +131,32 @@ export default {
 
         return isType && isName
       })
-      // newData.forEach(item=>{
-      //   item.file_name=item.file_name.replace(/^(?:\d+[-,.]|[A-Z]+[\s,_]+)/, '')
-      // })
       newData.sort((a, b) => b.updated_at - a.updated_at)
-      return newData
+      let newData2 = this.dataBaidu.filter(item => {
+        let isType
+        if (this.searchType === '') {
+          isType = true
+        } else {
+          isType = item._type === this.searchType
+        }
+        let isName
+        if (this.searchInput === '') {
+          isName = true
+        } else {
+          isName = item.file_name.indexOf(this.searchInput) >= 0
+        }
+        return isType && isName
+      })
+      return [...newData, ...newData2]
     },
     typeList() {
       let s = []
-      this.data.forEach(item => {
+      this.dataQuark.forEach(item => {
         let type = this.handleType(item)
         s.push(type)
+      })
+      this.dataBaidu.forEach(item => {
+        s.push(item._tag)
       })
       s = new Set(s)
       s = Array.from(s)

@@ -3,7 +3,8 @@
     <div class="header">
       <div class="logo"></div>
       <div class="title">影视资源共享</div>
-      <div class="info-title" style="font-weight: bold;color: red;text-shadow: 0 0 15px white">夸克或百度网盘 <br> <span>转存后免费观看</span>
+      <div class="info-title" style="font-weight: bold;color: red;text-shadow: 0 0 15px white">夸克或百度网盘 <br>
+        <span>转存后免费观看</span>
       </div>
     </div>
     <div class="content">
@@ -25,9 +26,12 @@
         <div class="table-body">
           <div class="row" v-for="(i,index) in computedData" :key="index">
             <div class="no">{{ index + 1 }}</div>
-            <div class="name">
+            <div class="name" style="position: relative;padding-right: 30px">
               <a :href="i.share_url" target="_blank" rel="noopener noreferrer">{{ i.file_name }}</a>
-              <span style="font-size: 12px;color: deeppink;font-weight: bold;padding: 0 10px;">{{ i.shortlink ? '百度' : '夸克'}}</span>
+              <span
+                  style="font-size: 12px;color: deeppink;font-weight: bold;padding: 0 10px;position: absolute;right: 0">{{
+                  i.shortlink ? '百度' : '夸克'
+                }}</span>
             </div>
             <div class="type">{{ i._type }}</div>
           </div>
@@ -74,6 +78,8 @@
 <script>
 import dataQuark from '@/assets/json/resourceQuark.json'
 import dataBaidu from '@/assets/json/resourceBaidu.json'
+// eslint-disable-next-line no-unused-vars
+import Fuse from "fuse.js"
 
 export default {
   name: 'QuarkResource',
@@ -113,41 +119,41 @@ export default {
       this.dataBaidu.forEach(item => {
         item._type = item._tag
         item.file_name = item._name
-        item.share_url=`${item.shortlink}?pwd=${item.passwd}`
+        item.share_url = `${item.shortlink}?pwd=${item.passwd}`
       })
-      let newData = this.dataQuark.filter(item => {
-        let isType
-        if (this.searchType === '') {
-          isType = true
+      /*夸克模糊查询*/
+      const fuseOptions = {
+        threshold: 0.9,
+        keys: [
+          "file_name",
+        ]
+      };
+      let allData = [...this.dataQuark, ...this.dataBaidu]
+      const fuse = new Fuse(allData, fuseOptions);
+      let newData = []
+      if (this.searchInput) {
+        let searchResult = fuse.search(this.searchInput)
+        searchResult.forEach(item => {
+          item.item.refIndex = item.refIndex
+          if (this.searchType === '') {
+            newData.push(item.item)
+          } else {
+            if (item.item._type === this.searchType) {
+              newData.push(item.item)
+            }
+          }
+        })
+      } else {
+        if (this.searchType) {
+          newData = allData.filter(a => {
+            return a._type === this.searchType
+          })
         } else {
-          isType = item._type === this.searchType
+          newData = [...allData]
         }
-        let isName
-        if (this.searchInput === '') {
-          isName = true
-        } else {
-          isName = item.file_name.indexOf(this.searchInput) >= 0
-        }
+      }
 
-        return isType && isName
-      })
-      newData.sort((a, b) => b.updated_at - a.updated_at)
-      let newData2 = this.dataBaidu.filter(item => {
-        let isType
-        if (this.searchType === '') {
-          isType = true
-        } else {
-          isType = item._type === this.searchType
-        }
-        let isName
-        if (this.searchInput === '') {
-          isName = true
-        } else {
-          isName = item.file_name.indexOf(this.searchInput) >= 0
-        }
-        return isType && isName
-      })
-      return [...newData, ...newData2]
+      return newData
     },
     typeList() {
       let s = []
@@ -289,7 +295,7 @@ export default {
 }
 
 .no {
-  width: 70px;
+  width: 50px;
   text-align: center;
 }
 
@@ -302,7 +308,7 @@ export default {
   white-space: nowrap; /* 确保文本不会换行 */
   overflow: hidden; /* 隐藏超出容器的文本 */
   text-overflow: ellipsis; /* 当文本超出容器时显示省略号 */
-  width: calc(100% - 180px);
+  width: calc(100% - 160px);
 
 }
 

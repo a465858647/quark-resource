@@ -80,6 +80,8 @@ import dataQuark from '@/assets/json/resourceQuark.json'
 import dataBaidu from '@/assets/json/resourceBaidu.json'
 // eslint-disable-next-line no-unused-vars
 import Fuse from "fuse.js"
+// eslint-disable-next-line no-unused-vars
+import baiduNetDictionary from "@/assets/js/baiduNetDictionary";
 
 export default {
   name: 'QuarkResource',
@@ -117,8 +119,11 @@ export default {
         item._type = type
       })
       this.dataBaidu.forEach(item => {
+        let find = baiduNetDictionary.find(b => {
+          return b.shareId === item.shareId
+        })
         item._type = item._tag
-        item.file_name = item._name
+        item.file_name = find ? find.name : item._name
         item.share_url = `${item.shortlink}?pwd=${item.passwd}`
       })
       /*夸克模糊查询*/

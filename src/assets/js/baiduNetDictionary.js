@@ -1,4 +1,4 @@
-let dictionary = [
+module.exports = [
     {
         shareId: 51228359545,
         name: '战争 Warfare (2025)/遗军之战【4KHDR + 1080P】【杜比全景声】【外挂中英双语字幕】'
@@ -82,8 +82,19 @@ let dictionary = [
     {
         shareId: 67311014038,
         name: '洪武大案'
+    },
+    {
+        shareId: 29333904276,
+        name: '唐朝诡事之长安（2025）全40集'
+    },
+    {
+        shareId: 11151119039,
+        name:'小鬼当家1~10部[喜剧/家庭][美国]'
+    },
+    {
+        shareId: 12361723347,
+        name: '守城者 [全24集] 陈小春 李治廷 韩雪 任达华 何润东 犯罪 悬疑 4K'
     }
 
 
 ]
-export default dictionary

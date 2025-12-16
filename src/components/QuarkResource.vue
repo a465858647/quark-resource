@@ -76,8 +76,8 @@
 </template>
 
 <script>
-import dataQuark from '@/assets/json/resourceQuark.json'
-import dataBaidu from '@/assets/json/resourceBaidu.json'
+import dataQuark from '@/assets/json/quarkResource.json'
+import dataBaidu from '@/assets/json/baiduShareList.json'
 // eslint-disable-next-line no-unused-vars
 import Fuse from "fuse.js"
 // eslint-disable-next-line no-unused-vars
